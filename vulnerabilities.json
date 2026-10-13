@@ -1,0 +1,203 @@
+
+[
+  {
+    "vuln_id": "DEMO-001",
+    "title": "Remote code execution on public web server",
+    "cvss_base": 9.8,
+    "asset_name": "Public Web Server",
+    "asset_owner": "IT Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": true,
+    "active_exploit_in_wild": true
+  },
+  {
+    "vuln_id": "DEMO-002",
+    "title": "SQL injection in customer portal",
+    "cvss_base": 9.1,
+    "asset_name": "Customer Portal",
+    "asset_owner": "Web Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": true,
+    "active_exploit_in_wild": true
+  },
+  {
+    "vuln_id": "DEMO-003",
+    "title": "Authentication bypass in payment service",
+    "cvss_base": 9.4,
+    "asset_name": "Payment Service",
+    "asset_owner": "Finance IT",
+    "asset_criticality": "Critical",
+    "internet_exposed": true,
+    "active_exploit_in_wild": null
+  },
+  {
+    "vuln_id": "DEMO-004",
+    "title": "Unpatched application server",
+    "cvss_base": 8.6,
+    "asset_name": "Application Server",
+    "asset_owner": "IT Team",
+    "asset_criticality": "High",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-005",
+    "title": "Remote access service weakness",
+    "cvss_base": 8.1,
+    "asset_name": "Remote Access Gateway",
+    "asset_owner": "Network Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": true,
+    "active_exploit_in_wild": true
+  },
+  {
+    "vuln_id": "DEMO-006",
+    "title": "Weak access control in admin panel",
+    "cvss_base": 7.5,
+    "asset_name": "Admin Portal",
+    "asset_owner": "Security Team",
+    "asset_criticality": "High",
+    "internet_exposed": true,
+    "active_exploit_in_wild": null
+  },
+  {
+    "vuln_id": "DEMO-007",
+    "title": "Sensitive data exposed in storage",
+    "cvss_base": 7.2,
+    "asset_name": "Customer Data Store",
+    "asset_owner": "Database Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": false,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-008",
+    "title": "Outdated database software",
+    "cvss_base": 8.0,
+    "asset_name": "Production Database",
+    "asset_owner": "Database Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": false,
+    "active_exploit_in_wild": true
+  },
+  {
+    "vuln_id": "DEMO-009",
+    "title": "Cross-site scripting in user dashboard",
+    "cvss_base": 6.1,
+    "asset_name": "User Dashboard",
+    "asset_owner": "Web Team",
+    "asset_criticality": "Medium",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-010",
+    "title": "Insecure file upload validation",
+    "cvss_base": 7.8,
+    "asset_name": "Document Portal",
+    "asset_owner": "Web Team",
+    "asset_criticality": "High",
+    "internet_exposed": true,
+    "active_exploit_in_wild": null
+  },
+  {
+    "vuln_id": "DEMO-011",
+    "title": "Excessive permissions on backup storage",
+    "cvss_base": 5.3,
+    "asset_name": "Backup Storage",
+    "asset_owner": "Infrastructure Team",
+    "asset_criticality": "High",
+    "internet_exposed": false,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-012",
+    "title": "Weak TLS configuration",
+    "cvss_base": 5.9,
+    "asset_name": "Public API",
+    "asset_owner": "Network Team",
+    "asset_criticality": "Medium",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-013",
+    "title": "Missing security headers",
+    "cvss_base": 4.3,
+    "asset_name": "Marketing Website",
+    "asset_owner": "Web Team",
+    "asset_criticality": "Low",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-014",
+    "title": "Unpatched internal file server",
+    "cvss_base": 7.4,
+    "asset_name": "Internal File Server",
+    "asset_owner": "IT Team",
+    "asset_criticality": "High",
+    "internet_exposed": false,
+    "active_exploit_in_wild": null
+  },
+  {
+    "vuln_id": "DEMO-015",
+    "title": "Weak password policy",
+    "cvss_base": 5.5,
+    "asset_name": "Employee Identity Service",
+    "asset_owner": "Identity Team",
+    "asset_criticality": "Critical",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-016",
+    "title": "Potential privilege escalation",
+    "cvss_base": 8.2,
+    "asset_name": "Build Server",
+    "asset_owner": "DevOps Team",
+    "asset_criticality": "High",
+    "internet_exposed": false,
+    "active_exploit_in_wild": true
+  },
+  {
+    "vuln_id": "DEMO-017",
+    "title": "Outdated library in internal application",
+    "cvss_base": 6.5,
+    "asset_name": "Inventory Application",
+    "asset_owner": "Development Team",
+    "asset_criticality": "Medium",
+    "internet_exposed": false,
+    "active_exploit_in_wild": null
+  },
+  {
+    "vuln_id": "DEMO-018",
+    "title": "Unrestricted access to monitoring service",
+    "cvss_base": 6.8,
+    "asset_name": "Monitoring Server",
+    "asset_owner": "Infrastructure Team",
+    "asset_criticality": "Medium",
+    "internet_exposed": true,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-019",
+    "title": "Insufficient logging configuration",
+    "cvss_base": 3.7,
+    "asset_name": "Internal Reporting Tool",
+    "asset_owner": "Operations Team",
+    "asset_criticality": "Low",
+    "internet_exposed": false,
+    "active_exploit_in_wild": false
+  },
+  {
+    "vuln_id": "DEMO-020",
+    "title": "Potential denial of service",
+    "cvss_base": 6.5,
+    "asset_name": "Public API",
+    "asset_owner": "API Team",
+    "asset_criticality": "High",
+    "internet_exposed": true,
+    "active_exploit_in_wild": null
+  }
+]
