@@ -10,7 +10,7 @@ def generate_remediation_artifacts(vulnerability_path: str = "prioritized_vulner
 
     client = genai.Client()
 
-    with open(vulnerability_path, "r") as f:
+    with open(vulnerability_path, "r", encoding="utf-8") as f:
         vulnerabilities = json.load(f)
 
     # Focus only on Critical and High priority vulnerabilities to avoid API rate limits
@@ -38,7 +38,6 @@ def generate_remediation_artifacts(vulnerability_path: str = "prioritized_vulner
 
         report_text = ""
         try:
-            # Using the stable gemini-3.5-flash model
             response = client.models.generate_content(
                 model="gemini-3.5-flash",
                 contents=prompt,
@@ -46,7 +45,7 @@ def generate_remediation_artifacts(vulnerability_path: str = "prioritized_vulner
             )
             report_text = response.text
         except Exception as e:
-            # Fallback generator so your script never breaks your workflow
+            print(f"API call failed for {vuln_id}: {e}. Using fallback artifact.")
             report_text = f"""
 ### RATIONALE
 This vulnerability ({title}) was prioritized due to its critical risk score and active exposure profile on {asset_name}. Immediate mitigation is required to prevent potential exploitation.
@@ -65,6 +64,9 @@ This vulnerability ({title}) was prioritized due to its critical risk score and 
 3. Run staging integration tests and verify patch deployment.
             """
 
+        # Save the AI-generated artifact back into the vulnerability dictionary
+        vuln['ai_generated_report'] = report_text.strip()
+
         print("\n" + "=" * 60)
         print(f"REMEDIATION REPORT: {vuln_id} | Asset: {asset_name} | Owner: {owner}")
         print("=" * 60)
@@ -72,6 +74,12 @@ This vulnerability ({title}) was prioritized due to its critical risk score and 
         print("=" * 60 + "\n")
 
         time.sleep(1) # Brief pause between calls
+
+    # Save all updated vulnerabilities back to the JSON file so Streamlit can read them
+    with open(vulnerability_path, "w", encoding="utf-8") as f:
+        json.dump(vulnerabilities, f, indent=2)
+
+    print(f"Successfully saved all AI remediation artifacts to {vulnerability_path}!")
 
 if __name__ == "__main__":
     generate_remediation_artifacts()
