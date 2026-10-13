@@ -1,6 +1,9 @@
 
-import streamlit as st
+import json
+from pathlib import Path
+
 import pandas as pd
+import streamlit as st
 
 st.set_page_config(
     page_title="Vulnerability Prioritization",
@@ -8,122 +11,300 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("AI-Assisted Vulnerability Prioritization")
-st.caption("Identify, prioritize, and remediate security vulnerabilities.")
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_FILE = BASE_DIR / "prioritized_vulnerabilities.json"
 
-# Sample data for the initial UI.
-# We will connect the scoring engine and AI module later.
-data = [
-    {
-        "ID": "VULN-001",
-        "Name": "SQL Injection",
-        "Severity": "Critical",
-        "CVSS": 9.8,
-        "Asset": "Web Server",
-        "Status": "Open"
-    },
-    {
-        "ID": "VULN-002",
-        "Name": "Cross-Site Scripting",
-        "Severity": "High",
-        "CVSS": 8.1,
-        "Asset": "Customer Portal",
-        "Status": "Open"
-    },
-    {
-        "ID": "VULN-003",
-        "Name": "Outdated TLS Configuration",
-        "Severity": "Medium",
-        "CVSS": 5.3,
-        "Asset": "API Server",
-        "Status": "In Progress"
-    },
-    {
-        "ID": "VULN-004",
-        "Name": "Information Disclosure",
-        "Severity": "Low",
-        "CVSS": 3.1,
-        "Asset": "Internal Dashboard",
-        "Status": "Resolved"
-    }
+PRIORITY_ORDER = ["Critical", "High", "Medium", "Low"]
+
+PRIORITY_COLORS = {
+    "Critical": "🔴",
+    "High": "🟠",
+    "Medium": "🟡",
+    "Low": "🟢",
+}
+
+
+def load_vulnerabilities():
+    """Load the scoring engine's JSON output."""
+    if not OUTPUT_FILE.exists():
+        return []
+
+    with OUTPUT_FILE.open("r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    if not isinstance(data, list):
+        raise ValueError("Expected a JSON list of vulnerabilities.")
+
+    return data
+
+
+st.title("AI-Assisted Vulnerability Prioritization")
+st.caption(
+    "Security findings ranked by contextual risk, "
+    "exploit status, exposure, and asset criticality."
+)
+
+if st.button("Refresh vulnerability data"):
+    st.rerun()
+
+try:
+    vulnerabilities = load_vulnerabilities()
+except (json.JSONDecodeError, OSError, ValueError) as error:
+    st.error(f"Could not load vulnerability data: {error}")
+    st.stop()
+
+if not vulnerabilities:
+    st.warning(
+        "No prioritized findings found. Run scoring_engine.py first."
+    )
+    st.stop()
+
+df = pd.DataFrame(vulnerabilities)
+
+required_columns = [
+    "vuln_id",
+    "title",
+    "cvss_base",
+    "contextual_risk_score",
+    "priority",
+    "priority_rank",
 ]
 
-df = pd.DataFrame(data)
+missing = [column for column in required_columns if column not in df.columns]
+
+if missing:
+    st.error(f"Missing required JSON fields: {', '.join(missing)}")
+    st.stop()
+
+# Convert scores to numeric values for sorting and display.
+df["cvss_base"] = pd.to_numeric(df["cvss_base"], errors="coerce")
+df["contextual_risk_score"] = pd.to_numeric(
+    df["contextual_risk_score"], errors="coerce"
+)
+df["priority_rank"] = pd.to_numeric(
+    df["priority_rank"], errors="coerce"
+)
+
+df["priority"] = df["priority"].fillna("Unknown")
 
 # Summary metrics
 total = len(df)
-critical = (df["Severity"] == "Critical").sum()
-high = (df["Severity"] == "High").sum()
-open_count = (df["Status"] == "Open").sum()
+critical = int((df["priority"] == "Critical").sum())
+high = int((df["priority"] == "High").sum())
+review_count = int(
+    df.get(
+        "data_quality",
+        pd.Series("", index=df.index)
+    ).astype(str).str.contains("Review required", case=False).sum()
+)
 
-col1, col2, col3, col4 = st.columns(4)
+metric1, metric2, metric3, metric4 = st.columns(4)
 
-col1.metric("Total Vulnerabilities", total)
-col2.metric("Critical", critical)
-col3.metric("High", high)
-col4.metric("Open", open_count)
+metric1.metric("Total Findings", total)
+metric2.metric("Critical Priority", critical)
+metric3.metric("High Priority", high)
+metric4.metric("Needs Data Review", review_count)
 
 st.divider()
 
-# Filters
-st.subheader("Prioritized Vulnerabilities")
+# Priority distribution
+left, right = st.columns([1, 2])
 
-filter_col1, filter_col2 = st.columns(2)
+with left:
+    st.subheader("Priority Distribution")
 
-with filter_col1:
-    severity_filter = st.multiselect(
-        "Filter by severity",
-        options=["Critical", "High", "Medium", "Low"],
-        default=["Critical", "High", "Medium", "Low"]
+    priority_counts = (
+        df["priority"]
+        .value_counts()
+        .reindex(PRIORITY_ORDER, fill_value=0)
     )
 
-with filter_col2:
+    st.bar_chart(priority_counts)
+
+with right:
+    st.subheader("Prioritized Findings")
+
     search = st.text_input(
-        "Search vulnerabilities",
-        placeholder="Search by name, ID, or asset..."
+        "Search",
+        placeholder="Search ID, title, asset, or owner..."
     )
 
-filtered_df = df[df["Severity"].isin(severity_filter)]
+    selected_priorities = st.multiselect(
+        "Filter by priority",
+        options=PRIORITY_ORDER,
+        default=PRIORITY_ORDER
+    )
 
-if search:
-    mask = filtered_df.astype(str).apply(
-        lambda column: column.str.contains(
-            search, case=False, na=False
+    filtered = df[df["priority"].isin(selected_priorities)].copy()
+
+    if search:
+        searchable_columns = [
+            column for column in
+            ["vuln_id", "title", "asset_name", "asset_owner"]
+            if column in filtered.columns
+        ]
+
+        mask = filtered[searchable_columns].fillna("").astype(str).apply(
+            lambda column: column.str.contains(
+                search, case=False, regex=False
+            )
+        ).any(axis=1)
+
+        filtered = filtered[mask]
+
+    filtered = filtered.sort_values(
+        "priority_rank", na_position="last"
+    )
+
+    display_columns = [
+        ("priority_rank", "Rank"),
+        ("vuln_id", "Finding ID"),
+        ("title", "Vulnerability"),
+        ("priority", "Priority"),
+        ("contextual_risk_score", "Contextual Risk"),
+        ("cvss_base", "CVSS Base"),
+    ]
+
+    visible_columns = [
+        column for column, label in display_columns
+        if column in filtered.columns
+    ]
+
+    rename_columns = dict(display_columns)
+
+    st.dataframe(
+        filtered[visible_columns].rename(columns=rename_columns),
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Contextual Risk": st.column_config.NumberColumn(
+                format="%.1f / 10"
+            ),
+            "CVSS Base": st.column_config.NumberColumn(
+                format="%.1f / 10"
+            ),
+        },
+    )
+
+st.divider()
+
+# Finding details
+st.subheader("Finding Details")
+
+if filtered.empty:
+    st.info("No findings match the selected filters.")
+else:
+    options = {
+        f"{row['vuln_id']} — {row['title']}": row["vuln_id"]
+        for _, row in filtered.iterrows()
+    }
+
+    selected_label = st.selectbox(
+        "Select a finding",
+        options=list(options.keys())
+    )
+
+    selected_id = options[selected_label]
+    finding = df[df["vuln_id"] == selected_id].iloc[0]
+
+    detail1, detail2, detail3 = st.columns(3)
+
+    detail1.metric(
+        "Contextual Risk Score",
+        f"{finding['contextual_risk_score']:.1f} / 10"
+    )
+
+    detail2.metric(
+        "CVSS Base Score",
+        f"{finding['cvss_base']:.1f} / 10"
+        if pd.notna(finding["cvss_base"]) else "Unavailable"
+    )
+
+    detail3.metric(
+        "Priority Rank",
+        int(finding["priority_rank"])
+        if pd.notna(finding["priority_rank"]) else "Unavailable"
+    )
+
+    st.markdown(f"### {finding['title']}")
+    st.write(
+        f"**Priority:** "
+        f"{PRIORITY_COLORS.get(finding['priority'], '')} "
+        f"{finding['priority']}"
+    )
+
+    info1, info2 = st.columns(2)
+
+    with info1:
+        st.write(f"**Finding ID:** {finding['vuln_id']}")
+        st.write(
+            f"**Affected asset:** "
+            f"{finding.get('asset_name', 'Not provided')}"
         )
-    ).any(axis=1)
-    filtered_df = filtered_df[mask]
+        st.write(
+            f"**Asset owner:** "
+            f"{finding.get('asset_owner', 'Not provided')}"
+        )
+        st.write(
+            f"**Asset criticality:** "
+            f"{finding.get('asset_criticality', 'Not provided')}"
+        )
 
-# Show highest CVSS scores first
-filtered_df = filtered_df.sort_values(
-    by="CVSS", ascending=False
-)
+    with info2:
+        st.write(
+            f"**Internet exposed:** "
+            f"{finding.get('internet_exposed', 'Unknown')}"
+        )
+        st.write(
+            f"**Active exploit in the wild:** "
+            f"{finding.get('active_exploit_in_wild', 'Unknown')}"
+        )
+        st.write(
+            f"**Data quality:** "
+            f"{finding.get('data_quality', 'Not provided')}"
+        )
 
-st.dataframe(
-    filtered_df,
-    use_container_width=True,
-    hide_index=True
-)
+    st.markdown("#### Why was this finding prioritized?")
 
-# Vulnerability details
-st.subheader("Vulnerability Details")
+    reasons = finding.get("risk_reasons", [])
 
-if not filtered_df.empty:
-    selected_id = st.selectbox(
-        "Select a vulnerability",
-        filtered_df["ID"].tolist()
-    )
+    if reasons:
+        for reason in reasons:
+            st.markdown(f"- {reason}")
+    else:
+        st.write("No risk reasons were provided.")
 
-    selected = df[df["ID"] == selected_id].iloc[0]
+    st.markdown("#### Score Breakdown")
 
-    st.write(f"**Name:** {selected['Name']}")
-    st.write(f"**Severity:** {selected['Severity']}")
-    st.write(f"**CVSS Score:** {selected['CVSS']}")
-    st.write(f"**Affected Asset:** {selected['Asset']}")
-    st.write(f"**Status:** {selected['Status']}")
+    breakdown = finding.get("score_breakdown", {})
+
+    if isinstance(breakdown, dict) and breakdown:
+        breakdown_df = pd.DataFrame(
+            [
+                {"Component": key.replace("_", " ").title(),
+                 "Points": value}
+                for key, value in breakdown.items()
+            ]
+        )
+        st.dataframe(
+            breakdown_df,
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No score breakdown available.")
+
+    st.markdown("#### Recommended Remediation")
 
     st.info(
-        "AI-generated remediation guidance will be integrated "
-        "after the remediation module is connected."
+        finding.get(
+            "recommended_action",
+            "No recommended action provided."
+        )
     )
-else:
-    st.warning("No vulnerabilities match your filters.")
+
+    st.caption(
+        "Contextual risk is calculated by the team's prototype scoring "
+        "model. It is not an official CVSS score. Remediation suggestions "
+        "should be reviewed by the responsible security team."
+    )
