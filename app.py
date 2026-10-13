@@ -296,6 +296,35 @@ else:
 
     st.markdown("#### Recommended Remediation")
 
+    # Add AI-Powered Rationale & Compensating Controls sections
+    st.markdown("#### AI-Powered Rationale & Business Impact")
+    st.success(
+        finding.get(
+            "ai_rationale",
+            "AI rationale pending generation. Run ai_remediation.py to populate."
+        )
+    )
+
+    col_ticket, col_waf = st.columns(2)
+
+    with col_ticket:
+        st.markdown("#### 🎫 Owner-Specific Developer Ticket")
+        st.code(
+            finding.get(
+                "developer_ticket",
+                f"Assignee: {finding.get('asset_owner', 'Unassigned')}\nAction: Patch required."
+            ),
+            language="markdown"
+        )
+
+    with col_waf:
+        st.markdown("#### 🛡️ Temporary Compensating Controls (WAF)")
+        st.info(
+            finding.get(
+                "waf_controls",
+                "Apply rate limiting or inspect traffic headers at the edge WAF."
+            )
+        )
     st.info(
         finding.get(
             "recommended_action",
