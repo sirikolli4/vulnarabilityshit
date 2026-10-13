@@ -1,0 +1,499 @@
+[
+    {
+        "vuln_id": "DEMO-001",
+        "title": "Remote code execution on public web server",
+        "cvss_base": 9.8,
+        "asset_name": "Public Web Server",
+        "asset_owner": "IT Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": true,
+        "active_exploit_in_wild": true,
+        "contextual_risk_score": 9.4,
+        "priority": "Critical",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Active exploit reported",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 5.88,
+            "internet_exposure": 1.0,
+            "active_exploit": 2.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Investigate immediately; apply a verified fix or mitigation.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 1
+    },
+    {
+        "vuln_id": "DEMO-002",
+        "title": "SQL injection in customer portal",
+        "cvss_base": 9.1,
+        "asset_name": "Customer Portal",
+        "asset_owner": "Web Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": true,
+        "active_exploit_in_wild": true,
+        "contextual_risk_score": 9.0,
+        "priority": "Critical",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Active exploit reported",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 5.46,
+            "internet_exposure": 1.0,
+            "active_exploit": 2.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Investigate immediately; apply a verified fix or mitigation.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 2
+    },
+    {
+        "vuln_id": "DEMO-005",
+        "title": "Remote access service weakness",
+        "cvss_base": 8.1,
+        "asset_name": "Remote Access Gateway",
+        "asset_owner": "Network Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": true,
+        "active_exploit_in_wild": true,
+        "contextual_risk_score": 8.4,
+        "priority": "Critical",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Active exploit reported",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.86,
+            "internet_exposure": 1.0,
+            "active_exploit": 2.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Investigate immediately; apply a verified fix or mitigation.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 3
+    },
+    {
+        "vuln_id": "DEMO-003",
+        "title": "Authentication bypass in payment service",
+        "cvss_base": 9.4,
+        "asset_name": "Payment Service",
+        "asset_owner": "Finance IT",
+        "asset_criticality": "Critical",
+        "internet_exposed": true,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 7.4,
+        "priority": "High",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Exploit status unknown; verify",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 5.64,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 4
+    },
+    {
+        "vuln_id": "DEMO-008",
+        "title": "Outdated database software",
+        "cvss_base": 8.0,
+        "asset_name": "Production Database",
+        "asset_owner": "Database Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": false,
+        "active_exploit_in_wild": true,
+        "contextual_risk_score": 7.3,
+        "priority": "High",
+        "risk_reasons": [
+            "Active exploit reported",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.8,
+            "internet_exposure": 0.0,
+            "active_exploit": 2.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 5
+    },
+    {
+        "vuln_id": "DEMO-016",
+        "title": "Potential privilege escalation",
+        "cvss_base": 8.2,
+        "asset_name": "Build Server",
+        "asset_owner": "DevOps Team",
+        "asset_criticality": "High",
+        "internet_exposed": false,
+        "active_exploit_in_wild": true,
+        "contextual_risk_score": 7.2,
+        "priority": "High",
+        "risk_reasons": [
+            "Active exploit reported",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.92,
+            "internet_exposure": 0.0,
+            "active_exploit": 2.0,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 6
+    },
+    {
+        "vuln_id": "DEMO-004",
+        "title": "Unpatched application server",
+        "cvss_base": 8.6,
+        "asset_name": "Application Server",
+        "asset_owner": "IT Team",
+        "asset_criticality": "High",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 6.5,
+        "priority": "High",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 5.16,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 7
+    },
+    {
+        "vuln_id": "DEMO-010",
+        "title": "Insecure file upload validation",
+        "cvss_base": 7.8,
+        "asset_name": "Document Portal",
+        "asset_owner": "Web Team",
+        "asset_criticality": "High",
+        "internet_exposed": true,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 6.3,
+        "priority": "High",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Exploit status unknown; verify",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.68,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 8
+    },
+    {
+        "vuln_id": "DEMO-006",
+        "title": "Weak access control in admin panel",
+        "cvss_base": 7.5,
+        "asset_name": "Admin Portal",
+        "asset_owner": "Security Team",
+        "asset_criticality": "High",
+        "internet_exposed": true,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 6.1,
+        "priority": "High",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Exploit status unknown; verify",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.5,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Schedule urgent remediation and verify the fix.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 9
+    },
+    {
+        "vuln_id": "DEMO-020",
+        "title": "Potential denial of service",
+        "cvss_base": 6.5,
+        "asset_name": "Public API",
+        "asset_owner": "API Team",
+        "asset_criticality": "High",
+        "internet_exposed": true,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 5.5,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Exploit status unknown; verify",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.9,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 10
+    },
+    {
+        "vuln_id": "DEMO-018",
+        "title": "Unrestricted access to monitoring service",
+        "cvss_base": 6.8,
+        "asset_name": "Monitoring Server",
+        "asset_owner": "Infrastructure Team",
+        "asset_criticality": "Medium",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 5.2,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Internet-facing asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.08,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.1
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 11
+    },
+    {
+        "vuln_id": "DEMO-014",
+        "title": "Unpatched internal file server",
+        "cvss_base": 7.4,
+        "asset_name": "Internal File Server",
+        "asset_owner": "IT Team",
+        "asset_criticality": "High",
+        "internet_exposed": false,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 5.0,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Exploit status unknown; verify",
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.44,
+            "internet_exposure": 0.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 12
+    },
+    {
+        "vuln_id": "DEMO-007",
+        "title": "Sensitive data exposed in storage",
+        "cvss_base": 7.2,
+        "asset_name": "Customer Data Store",
+        "asset_owner": "Database Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": false,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 4.8,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 4.32,
+            "internet_exposure": 0.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 13
+    },
+    {
+        "vuln_id": "DEMO-009",
+        "title": "Cross-site scripting in user dashboard",
+        "cvss_base": 6.1,
+        "asset_name": "User Dashboard",
+        "asset_owner": "Web Team",
+        "asset_criticality": "Medium",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 4.8,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Internet-facing asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.66,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.1
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 14
+    },
+    {
+        "vuln_id": "DEMO-015",
+        "title": "Weak password policy",
+        "cvss_base": 5.5,
+        "asset_name": "Employee Identity Service",
+        "asset_owner": "Identity Team",
+        "asset_criticality": "Critical",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 4.8,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Internet-facing asset",
+            "Critical criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.3,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.5
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 15
+    },
+    {
+        "vuln_id": "DEMO-012",
+        "title": "Weak TLS configuration",
+        "cvss_base": 5.9,
+        "asset_name": "Public API",
+        "asset_owner": "Network Team",
+        "asset_criticality": "Medium",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 4.6,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Internet-facing asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.54,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.1
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 16
+    },
+    {
+        "vuln_id": "DEMO-017",
+        "title": "Outdated library in internal application",
+        "cvss_base": 6.5,
+        "asset_name": "Inventory Application",
+        "asset_owner": "Development Team",
+        "asset_criticality": "Medium",
+        "internet_exposed": false,
+        "active_exploit_in_wild": null,
+        "contextual_risk_score": 4.3,
+        "priority": "Medium",
+        "risk_reasons": [
+            "Exploit status unknown; verify"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.9,
+            "internet_exposure": 0.0,
+            "active_exploit": 0.3,
+            "asset_criticality": 0.1
+        },
+        "recommended_action": "Plan remediation in the next maintenance cycle.",
+        "data_quality": "Review required: exploit status unknown",
+        "priority_rank": 17
+    },
+    {
+        "vuln_id": "DEMO-013",
+        "title": "Missing security headers",
+        "cvss_base": 4.3,
+        "asset_name": "Marketing Website",
+        "asset_owner": "Web Team",
+        "asset_criticality": "Low",
+        "internet_exposed": true,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 3.6,
+        "priority": "Low",
+        "risk_reasons": [
+            "Internet-facing asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 2.58,
+            "internet_exposure": 1.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.0
+        },
+        "recommended_action": "Track and address through routine patching.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 18
+    },
+    {
+        "vuln_id": "DEMO-011",
+        "title": "Excessive permissions on backup storage",
+        "cvss_base": 5.3,
+        "asset_name": "Backup Storage",
+        "asset_owner": "Infrastructure Team",
+        "asset_criticality": "High",
+        "internet_exposed": false,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 3.5,
+        "priority": "Low",
+        "risk_reasons": [
+            "High criticality asset"
+        ],
+        "score_breakdown": {
+            "cvss_component": 3.18,
+            "internet_exposure": 0.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.3
+        },
+        "recommended_action": "Track and address through routine patching.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 19
+    },
+    {
+        "vuln_id": "DEMO-019",
+        "title": "Insufficient logging configuration",
+        "cvss_base": 3.7,
+        "asset_name": "Internal Reporting Tool",
+        "asset_owner": "Operations Team",
+        "asset_criticality": "Low",
+        "internet_exposed": false,
+        "active_exploit_in_wild": false,
+        "contextual_risk_score": 2.2,
+        "priority": "Low",
+        "risk_reasons": [],
+        "score_breakdown": {
+            "cvss_component": 2.22,
+            "internet_exposure": 0.0,
+            "active_exploit": 0.0,
+            "asset_criticality": 0.0
+        },
+        "recommended_action": "Track and address through routine patching.",
+        "data_quality": "Exploit status provided",
+        "priority_rank": 20
+    }
+]
